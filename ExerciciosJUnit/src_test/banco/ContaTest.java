@@ -31,6 +31,22 @@ public class ContaTest  {
 		assertEquals(900.0, c2.getSaldo(),0.0);
 	}
 	
+	@Test
+	public void testCreditarSucesso() throws OperacaoIlegalException {
+		c1.creditar(1750.0);
+		assertEquals(2250.0, c1.getSaldo(), 0.0);
+	}
+	
+	@Test(expected = OperacaoIlegalException.class)
+	public void testDebitarFalha1() throws OperacaoIlegalException {
+		c1.debitar(600.0);
+	}
+	
+	@Test(expected = OperacaoIlegalException.class)
+	public void testDebitarFalha2() throws OperacaoIlegalException {
+		c1.debitar(-60.0);
+	}
+	
 	@Test(expected = OperacaoIlegalException.class)
 	public void testTransferirFalha1() throws OperacaoIlegalException {
 		c1.transferir(1000.0, c2);
@@ -40,4 +56,10 @@ public class ContaTest  {
 	public void testTransferirFalha2() throws OperacaoIlegalException {
 		c1.transferir(-10.0, c2);
 	}
+	
+	@Test(expected = OperacaoIlegalException.class)
+	public void testCreditarFalha1() throws OperacaoIlegalException {
+		c1.creditar(-30.0);
+	}
+	
 }
