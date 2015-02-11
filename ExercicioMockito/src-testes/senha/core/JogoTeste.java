@@ -41,6 +41,15 @@ public class JogoTeste {
 	@Test
 	public void iniciarJogo1() {
 		Jogo jogo = new Jogo(criarMockedInputStream());
+		assertEquals(Jogo.VOCE_PERDEU, jogo.iniciarJogo());
+	}
+	
+	@Test
+	public void iniciarJogo2() {
+		InputStream is = criarMockedInputStream();
+		Senha senha = new Senha(tentativa.getTentativa().subList(0, 4));
+		Jogo jogo = new Jogo(is, senha);
+		
 		assertEquals(Jogo.PARABENS_VOCE_GANHOU, jogo.iniciarJogo());
 	}
 	
@@ -74,24 +83,24 @@ public class JogoTeste {
 		Random rand = new Random();
 		ArrayList<Integer> numeros = new ArrayList<Integer>();
 		
-		for(int i = 0; i < 4; i++) {
-			int num = rand.nextInt(6);
-			while(input.contains(String.valueOf(num))) num = rand.nextInt(6);
-			
-			if(input.isEmpty())
-				input += num;
-			else
-				input += " " + num;
-			
-			numeros.add(num);
+		for(int i = 0; i < 5; i++) {
+			String line = "";
+			for(int j = 0; j < 4; j++) {
+				int num = rand.nextInt(6);
+				while(line.contains(String.valueOf(num))) num = rand.nextInt(6);
+				
+				if(line.isEmpty())
+					line += num;
+				else
+					line += " " + num;
+				
+				numeros.add(num);
+			}
+			input += line + "\n";
 		}
 		
 		tentativa = new Tentativa(numeros);
 		
-		return new ByteArrayInputStream(input.getBytes());
-	}
-	
-	public InputStream criarMockedInputStream(String input) {
 		return new ByteArrayInputStream(input.getBytes());
 	}
 
