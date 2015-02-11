@@ -2,7 +2,7 @@ package parameter;
 
 public class CalculoImpostoRenda {
 	
-	public static void calculaImposto(double valor) {
+	public static double calculaImposto(double valor) {
 	       //Declaração de Variáveis
 	       double imposto;
 	       double impostotot;
@@ -26,6 +26,8 @@ public class CalculoImpostoRenda {
 	       System.out.println("Valor:   R$ " + valor);
 	       System.out.println("Imposto pago:  " + porcento + " | Valor em Dinheiro: R$" + (valor*impostotot));
 	       System.out.println("Valor Total Pago  R$ " + (valor * imposto));
+	       
+	       return valor * imposto;
 	    }
 	
 	

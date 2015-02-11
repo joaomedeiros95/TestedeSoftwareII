@@ -83,7 +83,7 @@ public class FilaTest {
 	@Test
 	public void testRemovedaFila1() {
 		fila.removeDaFila();
-		assertEquals(true, fila.estaVazia());
+		fail();
 	}
 	
 	@Test
