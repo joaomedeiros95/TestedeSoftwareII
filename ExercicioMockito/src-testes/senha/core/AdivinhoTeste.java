@@ -1,19 +1,22 @@
 package senha.core;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-
-import senha.core.Adivinho;
-import senha.core.CaractereInvalidoException;
-import senha.core.PinoInvalidoException;
-import senha.core.PinoJaExisteException;
-import senha.core.QuantidadePinosException;
 
 public class AdivinhoTeste {
 	
 	private Adivinho adivinho;
 	private String normalline;
+	public Tentativa tentativa;
 	
 	@Before
 	public void setUp() {
@@ -53,6 +56,41 @@ public class AdivinhoTeste {
 	
 	@Test
 	public void processarPartida6() throws QuantidadePinosException, PinoInvalidoException, PinoJaExisteException, CaractereInvalidoException {
-		assertEquals();
+		assertNotNull(adivinho.processarEntrada(normalline));
+	}
+	
+	@Test
+	public void lerTentativa() throws QuantidadePinosException, PinoJaExisteException, PinoInvalidoException, CaractereInvalidoException {
+		Adivinho adivinho = new Adivinho();
+		assertNotNull(adivinho.lerTentativa(criarMockedInputStream()));
+	}
+	
+	@Test
+	public void lerTentativa1() throws QuantidadePinosException, PinoJaExisteException, PinoInvalidoException, CaractereInvalidoException {
+		Adivinho adivinho = new Adivinho();
+		List<Integer> esperado = adivinho.lerTentativa(criarMockedInputStream()).getTentativa();
+		assertEquals(tentativa.getTentativa(), esperado);
+	}
+	
+	public InputStream criarMockedInputStream() {
+		String input = "";
+		Random rand = new Random();
+		ArrayList<Integer> numeros = new ArrayList<Integer>();
+		
+		for(int i = 0; i < 4; i++) {
+			int num = rand.nextInt(6);
+			while(input.contains(String.valueOf(num))) num = rand.nextInt(6);
+			
+			if(input.isEmpty())
+				input += num;
+			else
+				input += " " + num;
+			
+			numeros.add(num);
+		}
+		
+		tentativa = new Tentativa(numeros);
+		
+		return new ByteArrayInputStream(input.getBytes());
 	}
 }

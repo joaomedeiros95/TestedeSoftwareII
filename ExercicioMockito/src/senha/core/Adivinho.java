@@ -50,4 +50,8 @@ public class Adivinho extends Jogador {
 		}
 		return new Tentativa(tentativa);
 	}
+	
+	public void setScanner(Scanner scanner) {
+		this.scanner = scanner;
+	}
 }
