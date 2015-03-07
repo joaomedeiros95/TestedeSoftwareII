@@ -2,36 +2,42 @@ public class CircularBuffer {
 	
 	private static int CAPACIDADE;
 	private Integer[] num;
-	private int atual;
+	private int fim;
+	private int inicio;
+	private int buflen;
 	
 	public CircularBuffer(int tamanho) {
-		num = new Integer[tamanho];
 		CAPACIDADE = tamanho;
-		atual = 0;
+		num = new Integer[tamanho];
+		fim = -1;
+		inicio = -1;
+		buflen = 0;
 	}
 	
 	public boolean isEmpty() {
-		return num[0] == null && num[finalvetor()] == null;
+		return buflen == 0;
 	}
 
 	public boolean isFull() {
-		return atual == capacity() && num[0] != null;
+		return buflen == CAPACIDADE;
 	}
 
 	public void Put(int valor) {
 		if(isFull())
 			throw new CircularBufferException("Put to full circular buffer");
 		
-		num[atual] = valor;
-		atual++;
+		buflen++;
+		fim = (fim + 1) % CAPACIDADE;
+		num[fim] = valor;
 	}
 
 	public long Get() {
 		if(isEmpty())
 			throw new CircularBufferException("Get from empty circular buffer");
 		
-		int retorno = num[0];
-		num[0] = null;
+		buflen--;
+		inicio = (inicio + 1) % CAPACIDADE;
+		int retorno = num[inicio];
 		return retorno;
 	}
 
@@ -43,8 +49,4 @@ public class CircularBuffer {
 		return num.length;
 	}
 	
-	public int finalvetor() {
-		return CAPACIDADE - 1;
-	}
-
 }
